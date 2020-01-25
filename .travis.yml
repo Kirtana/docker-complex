@@ -1,0 +1,21 @@
+sudo: required
+services: 
+    - docker
+before_install:
+    - docker build -t kiwamoto/react-test -f ./client.Dockerfile.dev ./client
+
+scripts:
+    - docker run -e CI=true kiwamoto/react-test npm test
+
+after_success:
+    - docker build -t kiwamoto/complex-client ./client
+    - docker build -t kiwamoto/complex-nginx ./nginx
+    - docker build -t kiwamoto/complex-server ./server
+    - docker build -t kiwamoto/complex-worker ./worker
+    #Log in to Docker CLI
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    #Take images and push to docker hub
+    - docker push kiwamoto/complex-client
+    - docker push kiwamoto/complex-nginx
+    - docker push kiwamoto/complex-server
+    - docker push kiwamoto/complex-worker
