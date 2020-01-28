@@ -19,3 +19,17 @@ after_success:
     - docker push kiwamoto/complex-nginx
     - docker push kiwamoto/complex-server
     - docker push kiwamoto/complex-worker
+
+deploy:
+    edge: true
+    provider: elasticbeanstalk
+    region: "us-east-2"
+    app: "complex-docker"
+    env: "ComplexDocker-env"
+    bucket_name: "elasticbeanstalk-us-east-2-706111965923"
+    bucket_path: "docker-complex"
+    on:
+    branch: master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key:
+    secure: "$AWS_SECRET_KEY"
