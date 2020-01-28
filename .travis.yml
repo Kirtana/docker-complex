@@ -21,7 +21,6 @@ after_success:
     - docker push kiwamoto/complex-worker
 
 deploy:
-    edge: true
     provider: elasticbeanstalk
     region: "us-east-2"
     app: "complex-docker"
@@ -33,3 +32,5 @@ deploy:
     access_key_id: $AWS_ACCESS_KEY
     secret_access_key:
     secure: "$AWS_SECRET_KEY"
+
+    
